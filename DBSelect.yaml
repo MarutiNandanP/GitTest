@@ -1,0 +1,9 @@
+name: 'select from SQL server DB'
+  win_shell: "invoke-sqlcmd -Query "SELECT * FROM [monitoring].[dbo].[usrid];" -ServerInstance "LAPTOP-0DB5TPTR\learning" -Username "admin" -Password "admin@123"  | Select-Object * -ExcludeProperty ItemArray, Table, RowError, RowState, HasErrors | ConvertTo-Json"
+  register: response
+
+- set_fact:
+    ids: "{{ response.stdout|from_json}}"
+
+- debug:
+    var: ids
